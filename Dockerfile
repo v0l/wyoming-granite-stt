@@ -1,6 +1,4 @@
-FROM python:3.12-slim
-
-ARG CUDA=130
+FROM nvcr.io/nvidia/pytorch:26.04-py3
 
 WORKDIR /app
 
@@ -9,12 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libsndfile1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install PyTorch with CUDA support
-RUN pip install --no-cache-dir \
-    torch torchaudio \
-    --index-url https://download.pytorch.org/whl/cu${CUDA}
-
-# Copy requirements and install remaining deps
+# Copy requirements and install remaining deps (torch/torchaudio already in base image)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
