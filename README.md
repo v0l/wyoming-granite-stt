@@ -35,17 +35,17 @@ uv pip install -r requirements.txt
 
 ## Configuration
 
-| Flag | Default | Description |
-|---|---|---|
-| `--uri` | `tcp://0.0.0.0:10300` | Server listen address |
-| `--model` | `ibm-granite/granite-speech-4.1-2b` | Hugging Face model ID |
-| `--device` | `cuda` | `cuda`, `cpu`, or `auto` |
-| `--dtype` | `bfloat16` | `float16`, `bfloat16`, `float32` |
-| `--language` | `en-US` | Default language for HA |
-| `--num-beams` | `1` | Beam width (1 = fast, 2+ = more accurate) |
-| `--max-new-tokens` | `256` | Max output tokens |
-| `--no-punctuation` | — | Disable punctuation/capitalization |
-| `--debug` | — | Verbose logging |
+| Flag               | Default                             | Description                               |
+| ------------------ | ----------------------------------- | ----------------------------------------- |
+| `--uri`            | `tcp://0.0.0.0:10300`               | Server listen address                     |
+| `--model`          | `ibm-granite/granite-speech-4.1-2b` | Hugging Face model ID                     |
+| `--device`         | `cuda`                              | `cuda`, `cpu`, or `auto`                  |
+| `--dtype`          | `bfloat16`                          | `float16`, `bfloat16`, `float32`          |
+| `--language`       | `en-US`                             | Default language for HA                   |
+| `--num-beams`      | `1`                                 | Beam width (1 = fast, 2+ = more accurate) |
+| `--max-new-tokens` | `256`                               | Max output tokens                         |
+| `--no-punctuation` | —                                   | Disable punctuation/capitalization        |
+| `--debug`          | —                                   | Verbose logging                           |
 
 ## Home Assistant
 
