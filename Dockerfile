@@ -4,8 +4,9 @@ ARG CUDA=130
 
 WORKDIR /app
 
-# System deps
+# System deps (ffmpeg needed by torchcodec for audio load)
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
     libsndfile1 \
     && rm -rf /var/lib/apt/lists/*
 
@@ -13,9 +14,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip install --no-cache-dir \
     torch torchaudio \
     --index-url https://download.pytorch.org/whl/cu${CUDA}
-
-# Force soundfile backend to avoid torchcodec / libnppicc issues
-ENV TORCHAUDIO_USE_SOUNDFILE_LEGACY_INTERFACE=1
 
 # App deps
 COPY requirements-docker.txt ./requirements.txt
