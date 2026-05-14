@@ -1,23 +1,20 @@
-FROM python:3.12-slim
-
-ARG CUDA=130
+FROM nvcr.io/nvidia/pytorch:24.12-py3
+ARG CUDA=126
 
 WORKDIR /app
 
 # System deps (ffmpeg needed by torchcodec for audio load)
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt update && apt install -y --no-install-recommends \
     ffmpeg \
     libsndfile1 \
     && rm -rf /var/lib/apt/lists/*
 
-# PyTorch with CUDA
-RUN pip install --no-cache-dir \
-    torch torchaudio \
-    --index-url https://download.pytorch.org/whl/cu${CUDA}
-
 # App deps
 COPY requirements-docker.txt ./requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Uninstall pre-installed torchaudio (wrong CUDA version) and install correct one
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip uninstall -y torchaudio && \
+    pip install --no-cache-dir -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu${CUDA}
 
 # Hugging Face cache
 ENV HF_HOME=/data/huggingface

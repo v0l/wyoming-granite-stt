@@ -1,8 +1,9 @@
 wyoming>=1.8.0
 transformers>=4.52.1
 accelerate
-torch
-torchaudio
+torch==2.6.0
+torchaudio==2.6.0
+torchvision==0.21.0
 torchcodec
 soundfile
 sentencepiece
