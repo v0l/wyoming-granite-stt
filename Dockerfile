@@ -1,11 +1,29 @@
-FROM pytorch/pytorch:2.3.1-cuda12.1-cudnn8-runtime
+FROM python:3.12-slim
+
+ARG CUDA=130
 
 WORKDIR /app
 
-COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -U pip && pip install --no-cache-dir -r /app/requirements.txt
+# System deps for audio processing
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libsndfile1 \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY wyoming_granite_stt.py /app/wyoming_granite_stt.py
+# Install PyTorch with CUDA support
+RUN pip install --no-cache-dir \
+    torch torchaudio \
+    --index-url https://download.pytorch.org/whl/cu${CUDA}
+
+# Copy requirements and install remaining deps
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Hugging Face cache directory
+ENV HF_HOME=/data/huggingface
+
+# Copy server code
+COPY wyoming_granite_stt.py .
 
 EXPOSE 10300
-ENTRYPOINT ["python", "/app/wyoming_granite_stt.py"]
+
+ENTRYPOINT ["python", "wyoming_granite_stt.py"]
