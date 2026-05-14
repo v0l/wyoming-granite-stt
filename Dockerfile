@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install remaining deps (torch/torchaudio/torchcodec already in base image)
-COPY requirements-docker.txt requirements.txt .
+COPY requirements-docker.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Hugging Face cache directory

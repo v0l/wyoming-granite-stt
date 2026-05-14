@@ -14,13 +14,8 @@ services:
     volumes:
       # Persistent cache for downloaded models
       - ./data:/data
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+    # GPU access via NVIDIA Container Toolkit
+    runtime: nvidia
     command: >
       --uri tcp://0.0.0.0:10300
       --model ibm-granite/granite-speech-4.1-2b
