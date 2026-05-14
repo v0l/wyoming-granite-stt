@@ -1,0 +1,30 @@
+services:
+  wyoming-granite-stt:
+    build: .
+    image: wyoming-granite-stt:latest
+    container_name: wyoming-granite-stt
+    restart: unless-stopped
+    ports:
+      - "10300:10300"
+    environment:
+      # Hugging Face cache directory (optional, set to use a persistent volume)
+      - HF_HOME=/data/hf
+      # Hugging Face token for gated models (optional)
+      # - HF_TOKEN=hf_...
+    volumes:
+      # Persistent cache for downloaded models
+      - ./data:/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command: >
+      --uri tcp://0.0.0.0:10300
+      --model ibm-granite/granite-speech-4.1-2b
+      --device cuda
+      --dtype bfloat16
+      --num-beams 1
+      --language en-US
